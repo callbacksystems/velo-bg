@@ -1,3 +1,5 @@
+![A red faceted gradient rendered by velo-bg](docs/velo-bg.jpg)
+
 # velo-bg
 
 Put a `<velo-bg>` tag on a page and it paints a faceted, low-poly gradient behind whatever you place inside it. The result looks like the lid of a VELO can: a colour sweep broken into crystal-like facets, each one catching the light a little differently, with a fine grain over the top.
@@ -33,7 +35,17 @@ The element repaints whenever it is resized or one of its attributes changes, so
 
 Any CSS colour works as a stop, and stops can carry positions: `gradient="45deg, tomato 10%, rgb(120 20 40) 90%"`. A full `linear-gradient(...)` string is accepted too.
 
-The demo page has a slider for every attribute and shows the matching markup as you move them, ready to copy. Run `npm run serve` and open http://localhost:4173.
+The demo page has a slider for every attribute and shows the matching markup as you move them, ready to copy. It can also download the current background as a PNG or SVG. Run `npm run serve` and open http://localhost:4173.
+
+## Exporting
+
+Every element exposes what it drew. `png` resolves to a PNG blob at the screen's pixel density, and `svg` is the same mesh as vector markup with a turbulence filter standing in for the grain:
+
+```js
+const background = document.querySelector("velo-bg")
+const blob = await background.png
+const markup = background.svg
+```
 
 ## Install
 

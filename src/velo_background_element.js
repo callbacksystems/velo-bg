@@ -61,6 +61,16 @@ export default class VeloBackgroundElement extends HTMLElement {
     return this.#number("seed")
   }
 
+  get png() {
+    return new Promise(resolve => this.#canvasElement.toBlob(resolve, "image/png"))
+  }
+
+  get svg() {
+    const { width, height } = this.#size
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`
+      + `${this.#polygons}${this.#film}</svg>`
+  }
+
   #scheduleDraw() {
     cancelAnimationFrame(this.#frame)
     this.#frame = requestAnimationFrame(() => this.#draw())
@@ -76,12 +86,17 @@ export default class VeloBackgroundElement extends HTMLElement {
   }
 
   #paint(context) {
-    const { gradient, depth } = this
     context.scale(devicePixelRatio, devicePixelRatio)
-    for (const triangle of this.#mesh.triangles) {
-      fillTriangle(context, triangle, gradient.colorAt(triangle.centroid, this.#size).lighten(triangle.shade * depth))
-    }
+    for (const { triangle, color } of this.#facets) fillTriangle(context, triangle, color)
     new Grain(new Random(this.seed)).paint(context, this.grain)
+  }
+
+  get #facets() {
+    const { gradient, depth } = this
+    return this.#mesh.triangles.map(triangle => ({
+      triangle,
+      color: gradient.colorAt(triangle.centroid, this.#size).lighten(triangle.shade * depth)
+    }))
   }
 
   get #mesh() {
@@ -101,6 +116,14 @@ export default class VeloBackgroundElement extends HTMLElement {
   #number(name) {
     return this.hasAttribute(name) ? Number(this.getAttribute(name)) : defaults[name]
   }
+
+  get #polygons() {
+    return this.#facets.map(({ triangle, color }) => polygon(triangle, color)).join("")
+  }
+
+  get #film() {
+    return this.grain ? film(this.grain) : ""
+  }
 }
 
 function fillTriangle(context, triangle, color) {
@@ -112,4 +135,18 @@ function fillTriangle(context, triangle, color) {
   context.closePath()
   context.fill()
   context.stroke()
+}
+
+function polygon(triangle, color) {
+  return `<polygon points="${points(triangle)}" fill="${color.css}" stroke="${color.css}" stroke-width="0.75"/>`
+}
+
+function points(triangle) {
+  return triangle.vertices.map(([ x, y ]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ")
+}
+
+function film(opacity) {
+  return "<filter id=\"grain\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.9\" stitchTiles=\"stitch\"/>"
+    + "<feColorMatrix type=\"saturate\" values=\"0\"/></filter>"
+    + `<rect width="100%" height="100%" filter="url(#grain)" opacity="${opacity}" style="mix-blend-mode: overlay"/>`
 }
