@@ -221,7 +221,7 @@ var Random = class {
 };
 
 // src/velo_background_element.js
-var defaults = { gradient: "160deg, #e84a5f, #a51c3a", cell: 72, jitter: 0.6, depth: 0.5, grain: 0.08, seed: 1 };
+var defaults = { gradient: "315deg, #e84a5f, #a51c3a", cell: 170, jitter: 0.6, depth: 0.5, grain: 0.08, seed: 1 };
 var template = document.createElement("template");
 template.innerHTML = `
   <style>

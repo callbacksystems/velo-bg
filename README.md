@@ -3,7 +3,7 @@
 Low-poly faceted gradient backgrounds, like the lid of a VELO can, as a `<velo-bg>` custom element.
 
 ```html
-<velo-bg gradient="160deg, #e84a5f, #a51c3a">
+<velo-bg gradient="315deg, #e84a5f, #a51c3a">
   <h1>VELO</h1>
 </velo-bg>
 ```
@@ -14,8 +14,8 @@ The element paints a canvas behind its children and repaints on resize or attrib
 
 | Attribute  | Default                      | What it does                                                   |
 | ---------- | ---------------------------- | -------------------------------------------------------------- |
-| `gradient` | `160deg, #e84a5f, #a51c3a`   | Arguments of a CSS `linear-gradient` (angle optional, stops optional) |
-| `cell`     | `72`                         | Approximate facet size in CSS pixels                           |
+| `gradient` | `315deg, #e84a5f, #a51c3a`   | Arguments of a CSS `linear-gradient`: an optional angle sets the direction, stops are optional |
+| `cell`     | `170`                        | Approximate facet size in CSS pixels                           |
 | `jitter`   | `0.6`                        | How far vertices stray from the grid, `0` to `1`               |
 | `depth`    | `0.5`                        | Strength of the facet shading, `0` to `1`                      |
 | `grain`    | `0.08`                       | Opacity of the film grain, `0` to `1`                          |

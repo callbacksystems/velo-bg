@@ -3,7 +3,7 @@ import Grain from "./grain.js"
 import Mesh from "./mesh.js"
 import Random from "./random.js"
 
-const defaults = { gradient: "160deg, #e84a5f, #a51c3a", cell: 72, jitter: 0.6, depth: 0.5, grain: 0.08, seed: 1 }
+const defaults = { gradient: "315deg, #e84a5f, #a51c3a", cell: 170, jitter: 0.6, depth: 0.5, grain: 0.08, seed: 1 }
 const template = document.createElement("template")
 template.innerHTML = `
   <style>
