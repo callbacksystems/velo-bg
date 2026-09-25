@@ -1,0 +1,32 @@
+{
+  "name": "velo-bg",
+  "version": "0.1.0",
+  "description": "Low-poly faceted gradient backgrounds as a <velo-bg> custom element",
+  "license": "MIT",
+  "author": "delCatta",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delCatta/velo-bg.git"
+  },
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./dist": "./dist/velo-bg.js"
+  },
+  "files": [
+    "index.js",
+    "src/",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "esbuild index.js --bundle --format=esm --outfile=dist/velo-bg.js",
+    "lint": "eslint --max-warnings 0",
+    "serve": "python3 -m http.server 4173"
+  },
+  "devDependencies": {
+    "@callbacksystems/eslint-config": "github:callbacksystems/eslint-config",
+    "esbuild": "^0.25.0",
+    "eslint": "^10.9.1"
+  }
+}

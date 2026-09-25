@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>velo-bg</title>
+  <script type="importmap">
+    { "imports": { "velo-bg": "./index.js" } }
+  </script>
+  <script type="module">
+    import "velo-bg"
+
+    const stage = document.querySelector("velo-bg")
+    document.querySelector("form").addEventListener("input", ({ target }) => {
+      stage.setAttribute(target.name, target.value)
+      target.nextElementSibling.textContent = target.value
+    })
+  </script>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; display: grid; grid-template-columns: 1fr 280px; min-height: 100vh }
+    velo-bg { display: grid; place-content: center; text-align: center; color: white; font-weight: 900; letter-spacing: 0.08em }
+    velo-bg h1 { font-size: clamp(4rem, 18vw, 12rem); margin: 0; line-height: 1 }
+    velo-bg p { font-size: clamp(1rem, 3vw, 2rem); margin: 0.5em 0 0 }
+    form { padding: 1.5rem; display: grid; gap: 1rem; align-content: start; background: #f4f4f5 }
+    label { display: grid; grid-template-columns: 1fr auto; font-size: 0.85rem; gap: 0.25rem 0.5rem }
+    label input, label textarea { grid-column: 1 / -1; width: 100%; box-sizing: border-box; font: inherit }
+    textarea { resize: vertical }
+  </style>
+</head>
+<body>
+  <velo-bg gradient="160deg, #e84a5f, #a51c3a">
+    <h1>VELO</h1>
+    <p>STRAWBERRY ICE</p>
+  </velo-bg>
+
+  <form>
+    <label>gradient <textarea name="gradient" rows="2">160deg, #e84a5f, #a51c3a</textarea><output></output></label>
+    <label>cell <input type="range" name="cell" min="20" max="200" value="72"><output>72</output></label>
+    <label>jitter <input type="range" name="jitter" min="0" max="1" step="0.05" value="0.6"><output>0.6</output></label>
+    <label>depth <input type="range" name="depth" min="0" max="1" step="0.05" value="0.5"><output>0.5</output></label>
+    <label>grain <input type="range" name="grain" min="0" max="0.5" step="0.01" value="0.08"><output>0.08</output></label>
+    <label>seed <input type="range" name="seed" min="1" max="100" value="1"><output>1</output></label>
+  </form>
+</body>
+</html>
