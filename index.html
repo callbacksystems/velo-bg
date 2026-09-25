@@ -11,29 +11,87 @@
     import "velo-bg"
 
     const stage = document.querySelector("velo-bg")
-    document.querySelector("form").addEventListener("input", ({ target }) => {
+    const form = document.querySelector("form")
+    const snippet = document.querySelector("code")
+
+    form.addEventListener("input", ({ target }) => {
       stage.setAttribute(target.name, target.value)
-      target.nextElementSibling.textContent = target.value
+      target.parentElement.querySelector("output").textContent = target.value
+      render()
     })
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault()
+      form.elements.seed.value = Math.floor(Math.random() * 1000)
+      form.elements.seed.dispatchEvent(new Event("input", { bubbles: true }))
+    })
+
+    document.querySelector("button[data-copy]").addEventListener("click", async ({ target }) => {
+      await navigator.clipboard.writeText(snippet.textContent)
+      target.textContent = "Copied"
+      setTimeout(() => target.textContent = "Copy", 1200)
+    })
+
+    function render() {
+      const attributes = [ ...new FormData(form) ].map(([ name, value ]) => `${name}="${value}"`)
+      snippet.textContent = `<velo-bg\n  ${attributes.join("\n  ")}\n></velo-bg>`
+    }
+
+    render()
   </script>
   <style>
-    body { margin: 0; font-family: system-ui, sans-serif; display: grid; grid-template-columns: 1fr 280px; min-height: 100vh }
-    form { padding: 1.5rem; display: grid; gap: 1rem; align-content: start; background: #f4f4f5 }
-    label { display: grid; grid-template-columns: 1fr auto; font-size: 0.85rem; gap: 0.25rem 0.5rem }
-    label input, label textarea { grid-column: 1 / -1; width: 100%; box-sizing: border-box; font: inherit }
-    textarea { resize: vertical }
+    :root { color-scheme: light }
+    body { margin: 0; min-height: 100vh; font: 14px/1.4 system-ui, sans-serif; color: #18181b }
+    velo-bg { position: fixed; inset: 0 }
+    aside {
+      position: fixed; top: 16px; right: 16px; bottom: 16px; width: 320px; overflow: auto; box-sizing: border-box;
+      padding: 20px; border-radius: 16px; background: rgb(255 255 255 / 0.82); backdrop-filter: blur(20px);
+      box-shadow: 0 10px 40px rgb(0 0 0 / 0.25); display: grid; gap: 20px; align-content: start
+    }
+    h1 { margin: 0; font-size: 15px; font-weight: 600 }
+    h1 small { font-weight: 400; color: #71717a; margin-left: 6px }
+    form { display: grid; gap: 14px }
+    label { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; font-weight: 500 }
+    output { font-variant-numeric: tabular-nums; color: #71717a; font-weight: 400 }
+    input, textarea { grid-column: 1 / -1; width: 100%; box-sizing: border-box; font: inherit; margin: 0 }
+    textarea { padding: 8px 10px; border: 1px solid #d4d4d8; border-radius: 8px; resize: vertical; font-family: ui-monospace, monospace; font-size: 13px }
+    input[type="range"] { accent-color: #18181b }
+    button { font: inherit; padding: 8px 12px; border: 1px solid #d4d4d8; border-radius: 8px; background: white; cursor: pointer }
+    button:hover { background: #f4f4f5 }
+    section { display: grid; gap: 8px }
+    section header { display: flex; justify-content: space-between; align-items: center; font-weight: 500 }
+    pre { margin: 0; padding: 12px; border-radius: 10px; background: #18181b; color: #fafafa; white-space: pre-wrap; word-break: break-all; font-size: 12.5px; line-height: 1.5 }
+    @media (max-width: 720px) { aside { top: auto; width: auto; left: 16px; max-height: 60vh } }
   </style>
 </head>
 <body>
-  <velo-bg gradient="315deg, #e84a5f, #a51c3a"></velo-bg>
+  <velo-bg gradient="315deg, #e84a5f, #a51c3a" cell="170" jitter="0.6" depth="0.5" grain="0.08" seed="1"></velo-bg>
 
-  <form>
-    <label>gradient <textarea name="gradient" rows="2">315deg, #e84a5f, #a51c3a</textarea><output></output></label>
-    <label>cell <input type="range" name="cell" min="20" max="300" value="170"><output>170</output></label>
-    <label>jitter <input type="range" name="jitter" min="0" max="1" step="0.05" value="0.6"><output>0.6</output></label>
-    <label>depth <input type="range" name="depth" min="0" max="1" step="0.05" value="0.5"><output>0.5</output></label>
-    <label>grain <input type="range" name="grain" min="0" max="0.5" step="0.01" value="0.08"><output>0.08</output></label>
-    <label>seed <input type="range" name="seed" min="1" max="100" value="1"><output>1</output></label>
-  </form>
+  <aside>
+    <h1>velo-bg <small>low-poly gradient backgrounds</small></h1>
+
+    <form>
+      <label>gradient <textarea name="gradient" rows="2">315deg, #e84a5f, #a51c3a</textarea></label>
+      <label>cell <output>170</output><input type="range" name="cell" min="20" max="300" value="170"></label>
+      <label>jitter <output>0.6</output><input type="range" name="jitter" min="0" max="1" step="0.05" value="0.6"></label>
+      <label>depth <output>0.5</output><input type="range" name="depth" min="0" max="1" step="0.05" value="0.5"></label>
+      <label>grain <output>0.08</output><input type="range" name="grain" min="0" max="0.5" step="0.01" value="0.08"></label>
+      <label>seed <output>1</output><input type="range" name="seed" min="1" max="1000" value="1"></label>
+      <button type="submit">Random seed</button>
+    </form>
+
+    <section>
+      <header>Markup <button type="button" data-copy>Copy</button></header>
+      <pre><code></code></pre>
+    </section>
+
+    <section>
+      <header>Import</header>
+      <pre>&lt;script type="importmap"&gt;
+  { "imports": { "velo-bg": "./velo-bg/index.js" } }
+&lt;/script&gt;
+&lt;script type="module"&gt;import "velo-bg"&lt;/script&gt;</pre>
+    </section>
+  </aside>
 </body>
 </html>
