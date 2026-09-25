@@ -8,6 +8,10 @@ Put a `<velo-bg>` tag on a page and it paints a faceted, low-poly gradient behin
 </velo-bg>
 ```
 
+## Why
+
+I love VELO nicotine pouches, and I kept staring at the can instead of using it. The lid has this faceted gradient that I couldn't stop looking at, so I built a version of it for the browser.
+
 It is a single import with no dependencies and no build step.
 
 ## What you get
