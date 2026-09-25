@@ -64,7 +64,8 @@
       padding: 20px; border-radius: 16px; background: rgb(255 255 255 / 0.82); backdrop-filter: blur(20px);
       box-shadow: 0 10px 40px rgb(0 0 0 / 0.25); display: grid; gap: 20px; align-content: start
     }
-    h1 { margin: 0; font-size: 15px; font-weight: 600 }
+    h1 { margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: baseline }
+    h1 a { margin-left: auto; font-weight: 400; color: #71717a }
     h1 small { font-weight: 400; color: #71717a; margin-left: 6px }
     form { display: grid; gap: 14px }
     label { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; font-weight: 500 }
@@ -88,7 +89,7 @@
   <velo-bg gradient="315deg, #e84a5f, #a51c3a" cell="170" jitter="0.6" depth="0.5" grain="0.08" seed="1"></velo-bg>
 
   <aside>
-    <h1>velo-bg <small>low-poly gradient backgrounds</small></h1>
+    <h1>velo-bg <small>low-poly gradient backgrounds</small> <a href="https://github.com/callbacksystems/velo-bg">GitHub</a></h1>
 
     <form>
       <label>gradient <textarea name="gradient" rows="2">315deg, #e84a5f, #a51c3a</textarea></label>

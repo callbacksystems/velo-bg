@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "description": "Low-poly faceted gradient backgrounds as a <velo-bg> custom element",
   "license": "MIT",
-  "author": "delCatta",
+  "author": "Callback Systems",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/delCatta/velo-bg.git"
+    "url": "git+https://github.com/callbacksystems/velo-bg.git"
   },
   "type": "module",
   "main": "index.js",
